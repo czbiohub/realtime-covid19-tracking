@@ -2,9 +2,10 @@
 title: "Plan for modeling in the Bay Area"
 author: "Lucy M. Li"
 date: "April 3, 2020"
-output: 
-  html_document: 
+output:
+  html_document:
     keep_md: yes
+  pdf_document: default
 ---
 
 
@@ -72,6 +73,7 @@ is laid out in the last section.
 - Reversible jump MCMC
 - AIC/BIC/DIC/Bayes factor
 - Bayesian model averaging
+- [Ensemble modelig](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007486)
 
 ### 6. Summarizing results
 
@@ -96,13 +98,25 @@ Instead of regurgitating what was written in that paper, I will highlight a few 
   - Fixed zoonotic infections
   - Used Tencent mobility data to fix the number of people moving between provinces in China, and between China and neighboring countries
   - Estimated R0 from Wuhan data using a deterministic SEIR model
-- Gibbs sampling
-- Predicted infections in China and surrounding countries using forward simulation of a deterministic metapopulation SEIR model
-- Showed how quickly the epidemic would die out assuming different reduction in transmission
+  - Gibbs sampling
+  - Predicted infections in China and surrounding countries using forward simulation of a deterministic metapopulation SEIR model
+  - Showed how quickly the epidemic would die out assuming different reduction in transmission
 
 [Early dynamics of transmission and control of COVID-19: a mathematical modelling study](https://www.sciencedirect.com/science/article/pii/S1473309920301444)
 
-- Estimate time-varying Rt (real-time reproductive number) 
+  - Fixed the number of travellers to different countries
+  - Fixed the incubation period and delay in from onset to isolation
+  - Estimated time-varying R using stochastic SEIR model
+  - Estimated the relative rate of detection among exported cases compared to in Wuhan
+  - Used Sequential Monte Carlo to fit model to data
+
+
+[The effect of travel restrictions on the spread of the 2019 novel coronavirus (COVID-19) outbreak](https://science.sciencemag.org/content/sci/early/2020/03/05/science.aba9757.full.pdf?casa_token=r_FNP9kDFRIAAAAA:RVQLw6WOjB2-Xj210e8rnv7g16naIgAHeLRV_aQ2Uwn-gPxSgpc2DvmOuvPn3NSQV8MiUSGOKRZhMX0)
+  
+  - 
+  - Used the [GLEAM](http://www.gleamviz.org/model/) model to estimate R0
+  - Approximate Bayesian Computation
+  - Sensitivity analysis assuming different combinations of average latent and infectious periods, detection rates, initial conditions, and generation times
 
 ###  Branching processes
 
@@ -110,41 +124,59 @@ Instead of regurgitating what was written in that paper, I will highlight a few 
 
 
 
+### Individual-based models
+
+[https://spiral.imperial.ac.uk/bitstream/10044/1/77482/5/Imperial%20College%20COVID19%20NPI%20modelling%2016-03-2020.pdf](Impact of non-pharmaceutical interventions (NPIs) to reduce COVID19 mortality and healthcare demand)
+
+
+### Statistical models
+
+[Forecasting COVID-19 impact on hospital bed-days, ICU-days, ventilatordays and deaths by US state in the next 4 months](http://www.healthdata.org/sites/default/files/files/research_articles/2020/COVID-forecasting-03252020_4.pdf)
+
 # Biases and uncertainty
 
-## Common types of sampling issues
+### Common types of sampling issues
 
-Fraction of infections that are asymptomatic/mild symptomatic infections --> time-invariant
+  - Fraction of infections that are asymptomatic/mild symptomatic infections --> time-invariant
+  - Time-varying in type of tests being used
+  - Time-varying in testing criteria
+  - Uneven distribution geographically and according to human demographics
+  - False negatives --> people who were mis-diagnosed
+  - Potentially conflicting information from different data sources
 
-Time-varying in type of tests being used
+### Sensitivity to assumptions
 
-Time-varying in testing criteria
+Models tend to be sensitive to these assumptions
 
-Uneven distribution geographically and according to human demographics
-
-False negatives --> people who were mis-diagnosed
-
-Potentially conflicting information from different data sources
-
-## Sensitivity to assumptions
-
-Initial state values can have a large impact on results, i.e. the number of infections at time T.
-
-Stochasticity matters more at small numbers.
-
-
-
-
-
-## How to address them in modeling
+  - Generation time distribution
+  - Mixing patterns if there is significant heterogeneity in transmission across different demographic groups in the population
+  - Rate of ascertainment
+  
 
 # Computational
 
 ## R/Python
 
+Usually data cleaning, data transformation, and visualizations are done in R and Python, with the model and MCMC algorithm written in C or C++ for performance.
+
+Most frequently used R packages: https://www.repidemicsconsortium.org/projects/
+
+[RStan](https://mc-stan.org/users/interfaces/rstan)
+
+[PyStan](https://pystan.readthedocs.io/en/latest/)
+
 ## C/C++
 
+Stan
+
+[BUGS](https://www.mrc-bsu.cam.ac.uk/software/bugs/)
+
+[JAGS](http://mcmc-jags.sourceforge.net/)
+
+
 ## Containers
+
+Not used that much for infectious disease outbreak modeling, even though Docker containers are widely used for pathogen genomics research. This would be an area of great technological contribution.
 
 # Plan for predictive modeling of COVID-19 in the Bay Area
 
@@ -153,7 +185,7 @@ Stochasticity matters more at small numbers.
 County case counts
 Hospitalizations
 Number of tests
-Mobility data --> Google?
+Mobility data --> Google/Unacast
 Number of healthcare facilities, beds, and ventilators --> Get data from SFDPH or individual hospitals?
 
 [ESRI's data](https://coronavirus-resources.esri.com/?adumkts=marketing&aduse=public_safety&aduc=industry_manager_outreach&utm_Source=industry_manager_outreach&aduca=cra_disaster_response_program&adut=cv-outreach-redirect&adulb=multiple&adusn=multiple&aduat=arcgis_online_portal&adupt=community&sf_id=701f2000000n6XKAAY#get-data)
@@ -162,15 +194,14 @@ Number of healthcare facilities, beds, and ventilators --> Get data from SFDPH o
 
 ## Computational setup
 
-- Data
-- Transmission model
-- Likelihood
-- MCMC or other algorithm - usually out of the box
-- Prediction
 
 ## Quaestions to address
 
 - Predictions about COVID and hospitalizations
+- Predictions about how long shelter-in-place needs to be in place
+- Estimate real-time reproductive number before and after shelter-in-place
+- Cross-jurisdictional transmissions based on genomic data
+- Estimate ratio of introduced vs local transmission over time
 
 - Side project on impact for healthcare by reducing load not just by COVID:
   - Impact on influenza
