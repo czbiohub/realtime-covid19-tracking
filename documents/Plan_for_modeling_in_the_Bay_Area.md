@@ -182,25 +182,54 @@ Not used that much for infectious disease outbreak modeling, even though Docker 
 
 ## Data
 
-County case counts
-Hospitalizations
-Number of tests
-Mobility data --> Google/Unacast
-Number of healthcare facilities, beds, and ventilators --> Get data from SFDPH or individual hospitals?
+- Case counts by county: Webscraper, JHU data
+- Number of tests by county: Webscraper, JHU data
+- Deaths by county: Webscraper, JHU data
+- Recovered by county: Webscraper, JHU data
+- Hospitalizations: 
+- Number of healthcare facilities, beds, and ventilators: Esri
+- Mobility data between counties: Descartes Labs/Bay Area Council, Esri
+- Transport data into and out of the bay area: SFgov
 
-[ESRI's data](https://coronavirus-resources.esri.com/?adumkts=marketing&aduse=public_safety&aduc=industry_manager_outreach&utm_Source=industry_manager_outreach&aduca=cra_disaster_response_program&adut=cv-outreach-redirect&adulb=multiple&adusn=multiple&aduat=arcgis_online_portal&adupt=community&sf_id=701f2000000n6XKAAY#get-data)
+Data sources:
 
-## Sampling
+- [Web scraper](https://github.com/czbiohub/realtime-covid19-tracking/tree/scraping_experiment)
+- [Descartes Labs/Bay Area Council](https://github.com/BACEI/Bay-Area-Mobility-Data/blob/master/MASTER_mobility_index_bayarea.csv)
+- [Johns Hopkins Data](https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_time_series)
+- [ESRI's data](https://disasterresponse.maps.arcgis.com/home/group.html?id=e0140dbc514b48b5b90c351740c14639&view=list#content): Unacast Social Distancing Score, ASTHO Restaurants and Bars Restrictions, ASTHO Stay at Home Orders and Advisories, ASTHO Travel and Quarantine Orders, ASTHO Testing Prioritization Guidance, ASTJHO State of Emergency Declarations, ASTHO Testing Prioritization Guidance, CDC Social Vulnerability Index 2018 - USA, Definitive Healthcare: USA Hospital Beds, World Population Density Estimate 2016
+- [SF Gov data](https://data.sfgov.org/browse)
+- [Data.gov](http://www.data.gov/)
+
+
+## Models
+
+### Compartmental models
+
+Variations on the SEIR metapopulation model to include the following feature(s):
+
+- geographic structure
+- multiple strains
+- age structure
+- movement in and out of the area
+- hospitalizations
+- household transmission
+
+### Agent-based models
+
+- 
+
+### Genomic
 
 ## Computational setup
 
 
-## Quaestions to address
 
-- Predictions about COVID and hospitalizations
+## Questions to address
+
+- Predictions about COVID-19 infections and hospitalizations
 - Predictions about how long shelter-in-place needs to be in place
 - Estimate real-time reproductive number before and after shelter-in-place
-- Cross-jurisdictional transmissions based on genomic data
+- Cross-jurisdictional transmissions based on mobility and genomic data
 - Estimate ratio of introduced vs local transmission over time
 
 - Side project on impact for healthcare by reducing load not just by COVID:
